@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Marks Entry | Offline</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Premium Look (Local fallback possible if needed, but per prompt "Offline-First" usually implies no net, 
+         but prompt says "DO NOT use Google APIs", fonts are usually fine or we can use system fonts to be strictly offline. 
+         I will use System Fonts stack to be 100% offline safe as requested) -->
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">MarksEntry<span class="highlight">Pro</span></div>
+            <div id="user-info" class="hidden">
+                <span id="teacher-name-display"></span>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- 1. Login View -->
+            <section id="login-view" class="view active">
+                <div class="login-card">
+                    <h1>Welcome Back</h1>
+                    <p>Enter your credentials to continue</p>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="teacher-id">Teacher ID</label>
+                            <input type="text" id="teacher-id" placeholder="e.g. T001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pin">PIN</label>
+                            <input type="password" id="pin" placeholder="****" required>
+                        </div>
+                        <button type="submit" class="btn primary">Login</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 2. Dashboard View -->
+            <section id="dashboard-view" class="view hidden">
+                <div class="dashboard-header">
+                    <h2>Pending Marks Entry</h2>
+                    <p>Select a student to enter marks. Only unsubmitted records are shown.</p>
+                </div>
+                <div class="stats-card" id="class-breakdown">
+                    <!-- Class items will be injected here dynamically -->
+                    <div class="stat">
+                        <span class="label">Loading...</span>
+                    </div>
+                </div>
+                <div class="action-area" style="display: none;">
+                    <!-- Button removed for class-wise entry flow -->
+                </div>
+            </section>
+
+            <!-- 3. Entry View -->
+            <section id="entry-view" class="view hidden">
+                <div class="progress-bar-container">
+                    <div class="progress-info">
+                        Student <span id="current-index">1</span> of <span id="total-count">10</span>
+                    </div>
+                </div>
+
+                <div class="student-card">
+                    <div class="student-header">
+                        <h3 id="student-name">Student Name</h3>
+                        <div class="chips">
+                            <span class="chip" id="student-class">Class</span>
+                            <span class="chip" id="student-roll">Roll No</span>
+                            <span class="chip" id="student-subject">Subject</span>
+                        </div>
+                    </div>
+
+                    <div class="mark-entry-area">
+                        <label for="marks-input">Obtained Marks (Max: <span id="max-marks">100</span>)</label>
+                        <input type="number" id="marks-input" placeholder="0-100" min="0" max="100">
+                    </div>
+
+                    <div class="entry-actions">
+                        <!-- 'Skip' might be needed, but prompt says "One Student at a time". Let's stick to Submit only for strict flow, or adding Next for strict skipping if needed. 
+                             For strictly "One Time Only", we force them to deal with the current one. -->
+                        <button id="view-dashboard-btn" class="btn secondary">Back</button>
+                        <button id="submit-mark-btn" class="btn primary">Submit & Next</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Complete View -->
+            <section id="complete-view" class="view hidden">
+                <div class="success-card">
+                    <div class="icon">🎉</div>
+                    <h2>All Done!</h2>
+                    <p>You have submitted marks for all assigned students.</p>
+                    <button id="back-home-btn" class="btn secondary">Back to Dashboard</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="notification-area"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
